@@ -1,5 +1,6 @@
 import { useContractAddressLoader } from "@/app/hooks/contractLoader";
 import useIpfsNFTStorageUpload from "@/app/hooks/useNFTStorage";
+import usePinataIpfsUpload from "@/app/hooks/usePinataIpfsUpload";
 import { usePageContext } from "@/context/PageContext";
 import MusicFactoryAbi from "@/contracts/MusicERC721Factory.json";
 import {
@@ -15,7 +16,7 @@ import {
   BaseError,
   useAccount,
   useWaitForTransactionReceipt,
-  useWriteContract
+  useWriteContract,
 } from "wagmi";
 interface Attribute {
   trait_type: string;
@@ -54,7 +55,6 @@ export const defaultMusicMetadata: MusicMetadata = {
   cover: "", // Example cover URL
 };
 
-
 const MusicMetadataForm: React.FC = () => {
   const {
     setSelectedNft,
@@ -68,7 +68,7 @@ const MusicMetadataForm: React.FC = () => {
     uploadingStatus,
     musicMetadata,
   }: any = usePageContext(); // Use the updated context to access the selectNft function
-  const { uploadIpfs, isUploading, uploadError } = useIpfsNFTStorageUpload();
+  const { uploadIpfs, isUploading, uploadError } = usePinataIpfsUpload();
   const {
     data: hash,
     error,
@@ -78,10 +78,10 @@ const MusicMetadataForm: React.FC = () => {
   } = useWriteContract();
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({ hash });
-const [isPreparing, setisPreparing] = useState<boolean>(false);
+  const [isPreparing, setisPreparing] = useState<boolean>(false);
 
   const contractsAddresses = useContractAddressLoader();
-  const account = useAccount()
+  const account = useAccount();
   const [formFields, setFormFields] =
     useState<MusicMetadata>(defaultMusicMetadata);
 
@@ -89,7 +89,6 @@ const [isPreparing, setisPreparing] = useState<boolean>(false);
   useEffect(() => {
     setMusicMetadata(formFields);
   }, [formFields, setMusicMetadata]);
-
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -102,10 +101,10 @@ const [isPreparing, setisPreparing] = useState<boolean>(false);
     event.preventDefault();
 
     if (
-      !formFields.name 
-      || !formFields.description 
-      || !trackCover
-      || !trackFile
+      !formFields.name ||
+      !formFields.description ||
+      !trackCover ||
+      !trackFile
     ) {
       alert("Please fill all required fields.");
       return;
@@ -113,7 +112,6 @@ const [isPreparing, setisPreparing] = useState<boolean>(false);
 
     await generateErc721Metadata();
   };
-
 
   useEffect(() => {
     if (isConfirmed) {
@@ -137,12 +135,11 @@ const [isPreparing, setisPreparing] = useState<boolean>(false);
     }));
   };
 
-
   // useWatchContractEvent({
   //   abi: MusicFactoryAbi,
   //   address: contractsAddresses.MusicERC721Factory as Address,
   //   eventName: "MusicERC721Deployed",
-  //   args: { 
+  //   args: {
   //     to: account
   //   },
   //   onLogs(logs: any) {
@@ -151,13 +148,12 @@ const [isPreparing, setisPreparing] = useState<boolean>(false);
   //       console.log("New log!", log);
   //       setSelectedNft({ address: log.args.contractAddress, tokenId: "0" });
   //     });
-      
+
   //   },
   //   onError(error) {
   //     console.log("Log Error", error);
   //   },
   // });
-  
 
   const addAttributeField = () => {
     setFormFields((prevState) => ({
@@ -167,7 +163,7 @@ const [isPreparing, setisPreparing] = useState<boolean>(false);
   };
 
   // const generateErc721Metadata = async () => {
-  
+
   //     const args = [
   //       formFields.attributes.find(attr => attr.trait_type = "Main Artist" )?.value,
   //       formFields.name,
@@ -192,7 +188,7 @@ const [isPreparing, setisPreparing] = useState<boolean>(false);
       trackUri = await uploadIpfs(trackFile);
       // Update context or local state with the URI
     }
-    
+
     setUploadingStatus("uploading track cover");
     if (trackCover) {
       console.log("track cover ", trackCover);
@@ -227,7 +223,7 @@ const [isPreparing, setisPreparing] = useState<boolean>(false);
       setUploadingStatus("write Metadata File");
 
       const args = [
-        formFields.attributes.find(attr => attr.trait_type = "Main Artist" ),
+        formFields.attributes.find((attr) => (attr.trait_type = "Main Artist")),
         formFields.name,
         JsonMetaDataURI?.url,
       ];
@@ -285,12 +281,10 @@ const [isPreparing, setisPreparing] = useState<boolean>(false);
           },
           maxFiles: 1,
           onDrop: (acceptedFiles: File[]) => {
-            acceptedFiles[0]
-              .text()
-              .then((text: string) => {
-                // setTrackCover(text)
-                setTrackCover(acceptedFiles[0])
-              });
+            acceptedFiles[0].text().then((text: string) => {
+              // setTrackCover(text)
+              setTrackCover(acceptedFiles[0]);
+            });
           },
         }}
         showFiles={true}
@@ -345,7 +339,6 @@ const [isPreparing, setisPreparing] = useState<boolean>(false);
             /> */}
             <TextInput
               className="w-full"
-              
               label={attribute.trait_type}
               name="value"
               placeholder="e.g., Rock"
@@ -376,12 +369,24 @@ const [isPreparing, setisPreparing] = useState<boolean>(false);
       {/* <button onClick={generateJSONFile}>Generate JSON</button> */}
       {/* <Body3>You will be able to edit the Wrapped song metadata later.</Body3> */}
       <div className="flex gap-3 mt-10 items-center">
-        <Button type="submit" disabled={isPreparing ||  !formFields.name 
-      || !formFields.description 
-      || !trackCover
-      || !trackFile}>Create Wrapped Song</Button>
+        <Button
+          type="submit"
+          disabled={
+            isPreparing ||
+            !formFields.name ||
+            !formFields.description ||
+            !trackCover ||
+            !trackFile
+          }
+        >
+          Create Wrapped Song
+        </Button>
       </div>
-      {isConfirming ? <Body3>Waiting for confirmation...</Body3> : <Body3>{uploadingStatus}</Body3>}
+      {isConfirming ? (
+        <Body3>Waiting for confirmation...</Body3>
+      ) : (
+        <Body3>{uploadingStatus}</Body3>
+      )}
       {isConfirmed && <Body3>Transaction confirmed.</Body3>}
       {error && (
         <div>Error: {(error as BaseError).shortMessage || error.message}</div>
