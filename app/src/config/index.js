@@ -1,5 +1,5 @@
 import { http } from "@wagmi/core";
-import { baseSepolia, mainnet, optimism, sepolia } from "@wagmi/core/chains";
+import { baseSepolia, mainnet, optimism, polygon, polygonMumbai, sepolia } from "@wagmi/core/chains";
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config';
 import { defineChain } from "viem";
 import { cookieStorage, createStorage } from "wagmi";
@@ -47,6 +47,8 @@ export const config = defaultWagmiConfig({
   chains: [
     // hardhat, 
     baseSepolia,
+    polygon,
+    polygonMumbai,
     sepolia,
      optimism,
       mainnet

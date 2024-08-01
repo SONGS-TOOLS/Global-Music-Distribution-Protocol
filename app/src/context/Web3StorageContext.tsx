@@ -1,4 +1,4 @@
-"use client";
+/* "use client";
 
 // contexts/Web3StorageContext.tsx
 import { create } from "@web3-storage/w3up-client";
@@ -110,3 +110,4 @@ export const useWeb3Storage = () => {
   }
   return context;
 };
+ */
