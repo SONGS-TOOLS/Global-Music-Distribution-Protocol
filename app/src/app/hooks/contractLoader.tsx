@@ -4,6 +4,7 @@ import { useChainId } from "wagmi";
 // Pre-imported contract addresses
 import contractAddressesBaseSepolia from "@/contracts/contractAddresses-baseSepolia.json";
 import contractAddressesLocalhost from "@/contracts/contractAddresses-localhost.json";
+import contractAddressesPolygon from "@/contracts/contractAddresses-polygon.json";
 import contractAddressesSepolia from "@/contracts/contractAddresses-sepolia.json";
 // Add more imports as needed
 
@@ -28,6 +29,12 @@ export const useContractAddressLoader = () => {
         //   break;
         case 31337: // Example for Localhost
           setContracts(contractAddressesLocalhost);
+          break;
+        case 137: // Example for Polygon
+          setContracts(contractAddressesPolygon);
+          break;
+        case 80001: // Example for Polygon Mumbai
+          setContracts(contractAddressesPolygon);
           break;
         case 84532: // Example for Localhost
           setContracts(contractAddressesBaseSepolia);

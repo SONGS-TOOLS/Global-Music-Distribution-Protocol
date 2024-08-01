@@ -1,4 +1,5 @@
 node_modules
 app/.next
 ui-components/dist
+ui-components/node_modules
 app/.env

@@ -48,6 +48,11 @@ export default {
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
+    polygon: {
+      url: process.env.POLYGON || '',
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+    },
     rinkeby: {
       url: process.env.RINKEBY || '',
       accounts:
