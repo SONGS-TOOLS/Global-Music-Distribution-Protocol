@@ -45,11 +45,11 @@ const metadata = {
 
 export const config = defaultWagmiConfig({
   chains: [
-    // hardhat, 
-    baseSepolia,
-    polygon,
-    polygonMumbai,
     sepolia,
+    // hardhat, 
+    polygon,
+    baseSepolia,
+    polygonMumbai,
      optimism,
       mainnet
     ],

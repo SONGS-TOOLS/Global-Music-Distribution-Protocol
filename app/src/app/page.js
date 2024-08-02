@@ -1,7 +1,7 @@
 "use client";
 
-import ConnectButton from "@/components/ConnectButton";
 import Grid from "@/components/Grid";
+import Header from "@/components/Header";
 import StepsList from "@/components/StepList";
 import Step1 from "@/components/Steps/Step1";
 import Step2 from "@/components/Steps/Step2";
@@ -13,12 +13,10 @@ import {
   Headline1,
   Headline3,
 } from "@gordo-d/mufi-ui-components";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useChainId, useReadContract, useWriteContract } from "wagmi";
 import abi from "../contracts/UMDP.json";
 import contracts from "../contracts/contractAddresses.json";
-import Header from "@/components/Header";
 
 export default function Home() {
   // TODO type
@@ -128,9 +126,9 @@ export default function Home() {
               {/* <Body3 onClick={() => setStep(stepNumber-1)} className=" cursor-pointer">
                 ⬅️ Back
               </Body3> */}
-              <Body3 onClick={() => setStep(1)} className=" cursor-pointer">
+{/*               <Body3 onClick={() => setStep(1)} className=" cursor-pointer">
                 Ahead ➡️
-              </Body3>
+              </Body3> */}
               {currentStep === 1 && (
                 <Body3 onClick={() => setStep(0)} className=" cursor-pointer">
                   ⬅️ Back

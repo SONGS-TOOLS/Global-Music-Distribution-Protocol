@@ -21,25 +21,25 @@ export const useContractAddressLoader = () => {
     // Function to select and set contract addresses based on the current chain ID
     function selectContractAddresses() {
       switch (chainId) {
-        // case 1: // Example for Mainnet
+        // case 1: // chain id for Mainnet
         //   setContracts(contractAddressesMainnet);
         //   break;
-        // case 5: // Example for Goerli
+        // case 5: // chain id for Goerli
         //   setContracts(contractAddressesGoerli);
         //   break;
-        case 31337: // Example for Localhost
+        case 31337: // chain id for Localhost
           setContracts(contractAddressesLocalhost);
           break;
-        case 137: // Example for Polygon
+        case 137: // chain id for Polygon
           setContracts(contractAddressesPolygon);
           break;
-        case 80001: // Example for Polygon Mumbai
+        case 80001: // chain id for Polygon Mumbai
           setContracts(contractAddressesPolygon);
           break;
-        case 84532: // Example for Localhost
+        case 84532: // chain id for Localhost
           setContracts(contractAddressesBaseSepolia);
           break;
-        case 11155111: // Example for Sepolia
+        case 11155111: // chain id for Sepolia
           setContracts(contractAddressesSepolia);
           break;
         // Add more cases as needed

@@ -1,6 +1,6 @@
-import React from 'react';
-import Image from 'next/image';
 import ConnectButton from '@/components/ConnectButton';
+import Image from 'next/image';
+import React from 'react';
 import { useChainId } from 'wagmi';
 
 const Header: React.FC = () => {
@@ -22,7 +22,7 @@ const Header: React.FC = () => {
         </div>
       </div>
       <ConnectButton />
-      {chainId !== 1 && (
+      {/* {chainId !== 1 && (
         <a
           className="text-sm underline absolute right-6 text-rose-700 top-[70px]"
           href={
@@ -35,7 +35,7 @@ const Header: React.FC = () => {
         >
           <p>{`Get ${chainId === 84532 ? 'Base Sepolia' : 'Sepolia'} ETH`}</p>
         </a>
-      )}
+      )} */}
     </header>
   );
 };

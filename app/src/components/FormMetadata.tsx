@@ -1,5 +1,4 @@
 import { useContractAddressLoader } from "@/app/hooks/contractLoader";
-import useIpfsNFTStorageUpload from "@/app/hooks/useNFTStorage";
 import usePinataIpfsUpload from "@/app/hooks/usePinataIpfsUpload";
 import { usePageContext } from "@/context/PageContext";
 import MusicFactoryAbi from "@/contracts/MusicERC721Factory.json";
@@ -21,6 +20,7 @@ import {
 interface Attribute {
   trait_type: string;
   value: string;
+  placeholder?: string;
 }
 
 export interface MusicMetadata {
@@ -42,9 +42,9 @@ export const defaultMusicMetadata: MusicMetadata = {
   name: ``, // Example placeholder value with current date, minutes, and seconds
   description: ``,
   attributes: [
-    { trait_type: "Main Artist", value: "" }, // Prefilled example attribute
-    { trait_type: "Production Year", value: "" }, // Prefilled example attribute
-    { trait_type: "Genre", value: "" }, // Additional attribute
+    { trait_type: "Main Artist", value: "", placeholder:"Michael Jackson" }, // Prefilled example attribute
+    { trait_type: "Production Year", value: "", placeholder:"1993" }, // Prefilled example attribute
+    { trait_type: "Genre", value: "", placeholder:"Pop" }, // Additional attribute
   ],
   external_url: "",
   animation_url: "",
@@ -215,6 +215,7 @@ const MusicMetadataForm: React.FC = () => {
       const metadataFile = new File([JSONFile], "erc721Metadata.json", {
         type: "application/json",
       });
+
       setUploadingStatus("uploading Metadata File");
       const JsonMetaDataURI = await uploadIpfs(metadataFile); // Now uploadIpfs receives a File object
 
@@ -227,6 +228,9 @@ const MusicMetadataForm: React.FC = () => {
         formFields.name,
         JsonMetaDataURI?.url,
       ];
+
+      console.log("args", args);
+      console.log("Contract => ",contractsAddresses.MusicERC721Factory);
 
       writeContract({
         abi: MusicFactoryAbi,
@@ -341,7 +345,7 @@ const MusicMetadataForm: React.FC = () => {
               className="w-full"
               label={attribute.trait_type}
               name="value"
-              placeholder="e.g., Rock"
+              placeholder={attribute.placeholder}
               value={attribute.value}
               onChange={(e: any) => handleAttributeChange(index, e)}
             />
@@ -377,8 +381,7 @@ const MusicMetadataForm: React.FC = () => {
             !formFields.description ||
             !trackCover ||
             !trackFile
-          }
-        >
+          }>
           Create Wrapped Song
         </Button>
       </div>
